@@ -30,7 +30,20 @@ class Solution {
         return false;
     }
     
-    
+    bool dfshelp(int s,int p,vector<int> adj[],vector<int>& vis){
+        vis[s]++;
+        
+        for (auto it : adj[s]) {
+            if (!vis[it]) {
+                if (dfshelp(it, s, adj, vis)) {
+                    return true;  
+                }
+            } else if (it != p) {
+                return true;  
+            }
+        }
+        return false;
+    }
 
     
     bool isCycle(int V, vector<int> adj[]) {
@@ -38,9 +51,10 @@ class Solution {
         vector<int> vis(V,0);
         for(int i=0;i<V;i++){
             if(!vis[i]){
-                if(help(i,adj,vis)){
-                    return true;
-                }
+                // if(help(i,adj,vis)){
+                //     return true;
+                // }
+                if(dfshelp(i,-1,adj,vis))return true;
             }
         }
         return false;
